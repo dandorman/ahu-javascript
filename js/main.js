@@ -113,10 +113,14 @@ $(function() {
     }
   })();
 
+  var shared_link_collection = new SharedLinkCollection(),
+      shared_link_collection_view = new SharedLinkCollectionView(shared_link_collection, $("#shared-links"));
+
   function add_shared_link(url) {
-    var link = link_info(url);
-    if (link) {
-      $("#shared-links").append('<li><div><h2>' + link.title + '</h2><p>' + link.description + '</p><p><img src="' + link.thumbnail_url + '"></p></div></li>');
+    var info = link_info(url);
+    if (info) {
+      var link = new Link(info);
+      shared_link_collection.add(link);
     }
   }
 
