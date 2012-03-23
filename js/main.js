@@ -25,6 +25,7 @@ $(function() {
 
   function Link(properties) {
     this.properties = properties;
+    this.properties.likes = 0;
 
     this.publish = publish;
   }
@@ -41,6 +42,10 @@ $(function() {
 
   Link.prototype.get = function(property) {
     return this.properties[property];
+  };
+
+  Link.prototype.like = function() {
+    this.set("likes", this.get("likes") + 1);
   };
 
   // SharedLinkCollection collection
@@ -84,11 +89,35 @@ $(function() {
 
   function SharedLinkView(link) {
     this.link = link;
+
+    subscribe(this.link, "set", (function(self) {
+      return function(property, value) {
+        if (property === "likes") {
+          self.updateLikes();
+        }
+      };
+    })(this));
   }
 
   SharedLinkView.prototype.render = function() {
     this.$el = $(this.template(this.link.properties));
+    this.$el.on("click", "a", (function(self) {
+      return function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        self.like();
+      };
+    })(this));
     return this.$el;
+  };
+
+  SharedLinkView.prototype.like = function() {
+    this.link.like();
+  };
+
+  SharedLinkView.prototype.updateLikes = function() {
+    this.$el.find(".likes .count").text(this.link.get("likes"));
   };
 
   // PendingLinkCollection collection
