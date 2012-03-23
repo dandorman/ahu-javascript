@@ -23,6 +23,12 @@ require([
         title: "Jets And Tebow A Good Fit?",
         description: "After word spread rapidly Wednesday that the New York Jets had acquired quarterback Tim Tebow from Denver Broncos for draft picks, the teams have encountered a hang-up in the language in Tebow's contract that could nullify the trade, a Broncos source tells ESPN NFL Insider Adam Schefter.",
         thumbnail_url: "http://a.espncdn.com/media/motion/2012/0321/dm_120321_nfl_tebow_jets_fit.jpg"
+      },
+
+      "http://espn.go.com/blog/collegebasketballnation/post/_/id/55876/talented-florida-thrives-at-right-time": {
+        title: "Talented Florida thriving at the right time",
+        description: "PHOENIX -- The No. 7 seeds in the 2012 NCAA tournament were as follows: Notre Dame. Saint Mary's. Gonzaga. Florida. Sing it with me now: One of these things is not like the others. For starters, Florida was the only No.",
+        thumbnail_url: "http://a.espncdn.com/photo/2012/0322/ncb_u_fla_marq_b4_300.jpg"
       }
     };
 
