@@ -81,7 +81,7 @@ $(function() {
   }
 
   SharedLinkView.prototype.render = function() {
-    this.$el = $('<li><div><h2>' + this.link.get("title") + '</h2><p>' + this.link.get("description") + '</p><p><img src="' + this.link.get("thumbnail_url") + '"></p></div></li>');
+    this.$el = $(this.template(this.link.properties));
     return this.$el;
   };
 
@@ -115,6 +115,8 @@ $(function() {
 
   var shared_link_collection = new SharedLinkCollection(),
       shared_link_collection_view = new SharedLinkCollectionView(shared_link_collection, $("#shared-links"));
+
+  SharedLinkView.prototype.template = Mustache.compile($("#shared-link-template").html());
 
   function add_shared_link(url) {
     var info = link_info(url);

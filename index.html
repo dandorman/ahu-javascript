@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Most Best Link Sharing Service</title>
     <script src="js/jquery.js"></script>
+    <script src="js/mustache.js"></script>
     <script src="js/main.js"></script>
   </head>
   <body>
@@ -23,6 +24,16 @@
 
       <ol id="shared-links"></ol>
     </div>
+
+    <script id="shared-link-template" type="text/x-mustache">
+      <li>
+        <div>
+          <h2>{{ title }}</h2>
+          <p>{{ description }}</p>
+          <p><img src="{{ thumbnail_url }}"></p>
+        </div>
+      </li>
+    </script>
   </body>
 </html>
 
