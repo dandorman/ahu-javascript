@@ -176,36 +176,48 @@ $(function() {
     };
 
     return function(url_fragment) {
-      for (url in info) {
+      for (var url in info) {
         if (new RegExp(url_fragment.split('').join('.*')).test(url)) {
           var url_info = info[url];
           url_info.url = url;
           return url_info;
         }
       }
-    }
+    };
   })();
 
-  var shared_link_collection = new SharedLinkCollection(),
+  var pending_link_collection = new PendingLinkCollection(),
+      pending_link_collection_view = new PendingLinkCollectionView(pending_link_collection, $("#pending-links")),
+      shared_link_collection = new SharedLinkCollection(pending_link_collection),
       shared_link_collection_view = new SharedLinkCollectionView(shared_link_collection, $("#shared-links"));
 
   SharedLinkView.prototype.template = Mustache.compile($("#shared-link-template").html());
   PendingLinkView.prototype.template = Mustache.compile($("#pending-link-template").html());
 
-  function add_shared_link(url) {
+  function add_pending_link(url) {
     var info = link_info(url);
     if (info) {
       var link = new Link(info);
-      shared_link_collection.add(link);
+      pending_link_collection.add(link);
     }
   }
+
+  subscribe(pending_link_collection, "add", function(link) {
+    setTimeout(function() {
+      var info = link_info(link.get("url"));
+      link.set("title", info.title);
+      link.set("description", info.description);
+      link.set("thumbnail_url", info.thumbnail_url);
+      link.set("id", 1);
+    }, 2000);
+  });
 
   $("form").submit(function(e) {
     e.stopPropagation();
     e.preventDefault();
 
     var url = $(this).find(":text").val();
-    add_shared_link(url);
+    add_pending_link(url);
 
     $(this).find(":text").val('');
   });
