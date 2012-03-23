@@ -1,4 +1,6 @@
 $(function() {
+  // publish/subscribe
+
   function publish(event) {
     var args = Array.prototype.slice.call(arguments, 1);
 
@@ -18,6 +20,30 @@ $(function() {
 
     object.subscribers[event].push(callback);
   }
+
+  // Link model
+
+  function Link(properties) {
+    this.properties = properties;
+
+    this.publish = publish;
+  }
+
+  Link.prototype.set = function(property, value) {
+    if (this.properties[property] !== value) {
+      this.properties[property] = value;
+
+      this.publish("set", property, value);
+    }
+
+    return value;
+  };
+
+  Link.prototype.get = function(property) {
+    return this.properties[property];
+  };
+
+  // main app setup and whatnot
 
   var link_info = (function() {
     var info = {
