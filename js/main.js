@@ -43,6 +43,19 @@ $(function() {
     return this.properties[property];
   };
 
+  // SharedLinkCollection collection
+
+  function SharedLinkCollection() {
+    this.items = [];
+
+    this.publish = publish;
+  }
+
+  SharedLinkCollection.prototype.add = function(link) {
+    this.items.push(link);
+    this.publish("add", link);
+  };
+
   // main app setup and whatnot
 
   var link_info = (function() {
