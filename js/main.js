@@ -1,4 +1,24 @@
 $(function() {
+  function publish(event) {
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    this.subscribers = this.subscribers || {};
+    this.subscribers[event] = this.subscribers[event] || [];
+
+    this.subscribers[event].forEach(function(callback) {
+      setTimeout(function() {
+        callback.apply(null, args);
+      }, 1);
+    });
+  }
+
+  function subscribe(object, event, callback) {
+    if (!object.subscribers) object.subscribers = {};
+    if (!object.subscribers[event]) object.subscribers[event] = [];
+
+    object.subscribers[event].push(callback);
+  }
+
   var link_info = (function() {
     var info = {
       "http://www.forbes.com/sites/juliabricklin/2012/03/20/why-amcs-the-walking-dead-could-be-the-perfect-tv-format/": {
