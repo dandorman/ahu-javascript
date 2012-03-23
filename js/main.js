@@ -56,6 +56,24 @@ $(function() {
     this.publish("add", link);
   };
 
+  // SharedLinkCollectionView view
+
+  function SharedLinkCollectionView(collection, $el) {
+    this.collection = collection;
+    this.$el = $el;
+
+    subscribe(this.collection, "add", (function(self) {
+      return function(link) {
+        self.addSharedLink(link);
+      };
+    })(this));
+  }
+
+  SharedLinkCollectionView.prototype.addSharedLink = function(link) {
+    var sharedLinkView = new SharedLinkView(link);
+    this.$el.append(sharedLinkView.render());
+  };
+
   // main app setup and whatnot
 
   var link_info = (function() {
