@@ -74,6 +74,17 @@ $(function() {
     this.$el.append(sharedLinkView.render());
   };
 
+  // SharedLinkView view
+
+  function SharedLinkView(link) {
+    this.link = link;
+  }
+
+  SharedLinkView.prototype.render = function() {
+    this.$el = $('<li><div><h2>' + this.link.get("title") + '</h2><p>' + this.link.get("description") + '</p><p><img src="' + this.link.get("thumbnail_url") + '"></p></div></li>');
+    return this.$el;
+  };
+
   // main app setup and whatnot
 
   var link_info = (function() {
