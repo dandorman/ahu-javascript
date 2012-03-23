@@ -45,10 +45,16 @@ $(function() {
 
   // SharedLinkCollection collection
 
-  function SharedLinkCollection() {
+  function SharedLinkCollection(pendingLinkCollection) {
     this.items = [];
 
     this.publish = publish;
+
+    subscribe(pendingLinkCollection, "remove", (function(self) {
+      return function(link) {
+        self.add(link);
+      };
+    })(this));
   }
 
   SharedLinkCollection.prototype.add = function(link) {
