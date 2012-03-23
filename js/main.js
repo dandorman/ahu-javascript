@@ -133,6 +133,25 @@ $(function() {
     this.$el.append(pendingLinkView.render());
   };
 
+  // PendingLinkView view
+
+  function PendingLinkView(link) {
+    this.link = link;
+
+    subscribe(this.link, "set", (function(self) {
+      return function(property, value) {
+        if (property === "id" && value) {
+          self.$el.remove();
+        }
+      };
+    })(this));
+  }
+
+  PendingLinkView.prototype.render = function() {
+    this.$el = $(this.template(this.link.properties));
+    return this.$el;
+  };
+
   // main app setup and whatnot
 
   var link_info = (function() {
@@ -165,6 +184,7 @@ $(function() {
       shared_link_collection_view = new SharedLinkCollectionView(shared_link_collection, $("#shared-links"));
 
   SharedLinkView.prototype.template = Mustache.compile($("#shared-link-template").html());
+  PendingLinkView.prototype.template = Mustache.compile($("#pending-link-template").html());
 
   function add_shared_link(url) {
     var info = link_info(url);
